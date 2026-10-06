@@ -70,6 +70,13 @@ def listar_modulos():
 def crear_modulo():
     '''Crea un modulo donde decida el usuario'''
 
+    raiz = Path('./cuadernoDAM')
+    ruta_inp = input("Introduce la ruta donde quieras crear el modulo: ")
+    nuevo_modulo = input("Introduce el nombre del nuevo módulo: ")
+    ruta = raiz / ruta_inp / nuevo_modulo
+    print(ruta)
+    ruta.mkdir(parents=True, exist_ok=True)
+
 def renombrar_modulo():
     '''Renombra el directorio de un modulo'''
 
