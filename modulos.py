@@ -11,7 +11,7 @@ def menu_modulos():
 2. Listar módulos
 3. Crear Módulo
 4. Renombrar modulo
-5. Mover Módulo
+5. Archivar Módulo
 6. Eliminar Módulo
 9. Salir''')
 
@@ -31,7 +31,7 @@ def menu_modulos():
             case 4:
                 renombrar_modulo()
             case 5:
-                mover_modulo()
+                archivar_modulo()
             case 6:
                 eliminar_modulo()
             case 9:
@@ -46,7 +46,7 @@ def modulo_existe():
 
     modulo_buscar = input("Introduzca el nombre del modulo que desea buscar: ")
 
-    for directorio, subdirectorios, archivos in os.walk('.\cuadernoDAM'):
+    for directorio, subdirectorios, archivos in os.walk('./cuadernoDAM'):
         for subdirectorio in subdirectorios:
             if modulo_buscar == subdirectorio:
                 print(f"Modulo encontrado en {directorio}")
@@ -55,7 +55,6 @@ def modulo_existe():
     print("Modulo no encontrado")
     return
             
-    
 def listar_modulos():
     '''Lista los modulos del cuaderno de un modulo'''
 
@@ -71,18 +70,62 @@ def crear_modulo():
     '''Crea un modulo donde decida el usuario'''
 
     raiz = Path('./cuadernoDAM')
-    ruta_inp = input("Introduce la ruta donde quieras crear el modulo: ")
-    nuevo_modulo = input("Introduce el nombre del nuevo módulo: ")
-    ruta = raiz / ruta_inp / nuevo_modulo
-    print(ruta)
-    ruta.mkdir(parents=True, exist_ok=True)
+    ruta = input("Introduce la ruta para el nuevo modulo, todo lo que no exista en esta ruta será creado: ")
+    ruta = raiz / ruta
+    ruta.mkdir(parents=True, exist_ok=True) # Parents=True permite crear todos los padres de la ruta de una
+                                            # exist_ok=True Ignora el error por directorio existente en la ruta
+    print(f"Modulo creado, la ruta completa es: {ruta}")
+    return
 
 def renombrar_modulo():
     '''Renombra el directorio de un modulo'''
 
-def mover_modulo():
+    raiz = Path('./cuadernoDAM')
+    ruta = input("Introduce la ruta del modulo que desee renombrar: ")
+    ruta = raiz / ruta
+
+    if ruta.exists():
+
+        nuevo_nombre = input("Introduce el nuevo nombre a asignar: ")
+        # with_name() mantiene toda la ruta y solo cambia el nombre del ultimo directorio
+        nueva_ruta = ruta.with_name(nuevo_nombre)
+        ruta.rename(nueva_ruta)
+        print(f"Modulo renombrado a: {nueva_ruta}")
+        return
+
+    else:
+        print("Error: La ruta introducida no existe.")
+        return
+
+def archivar_modulo():
     '''Mueve un modulo al archivo de primero'''
+    
+    raiz = Path('./cuadernoDAM')
+    ruta = input("Introduzca la ruta al modulo que desea archivar: ")
+    ruta_origen = raiz / ruta
+    ruta_destino = Path(f"./cuadernoDAM/_primero/{ruta}")
+    
+    if ruta_origen.exists():
+        os.replace(ruta_origen, ruta_destino)
+        print("Modulo archivado")
+        return
+
+    else:
+        print("Error: La ruta introducida no existe.")
+        return
 
 def eliminar_modulo():
     '''Elimina un módulo'''
+    
+    print("ADVERTENCIA: Esta funcionalidad borra el módulo con todo su contenido")
+    ruta = input("Introduzca la ruta al módulo que desea borrar: ")
+    try:
+        os.rmdir(ruta)
+        print("Modulo eliminado")
+        return
+        
+    except:
+        print("Error, no se ha encontrado la ruta especificada")
+        return
+    
 
