@@ -46,6 +46,7 @@ def modulo_existe():
 
     modulo_buscar = input("Introduzca el nombre del modulo que desea buscar: ")
 
+    # Recorremos todo el sistema de archivos buscando la coincidencia del directorio
     for directorio, subdirectorios, archivos in os.walk('./cuadernoDAM'):
         for subdirectorio in subdirectorios:
             if modulo_buscar == subdirectorio:
@@ -69,23 +70,28 @@ def listar_modulos():
 def crear_modulo():
     '''Crea un modulo donde decida el usuario'''
 
+    # Montamos la ruta
     raiz = Path('./cuadernoDAM')
     ruta = input("Introduce la ruta para el nuevo modulo, todo lo que no exista en esta ruta será creado: ")
     ruta = raiz / ruta
-    ruta.mkdir(parents=True, exist_ok=True) # Parents=True permite crear todos los padres de la ruta de una
-                                            # exist_ok=True Ignora el error por directorio existente en la ruta
+
+    # Creamos el directorio
+    ruta.mkdir(parents=True, exist_ok=True)     # Parents=True permite crear todos los padres de la ruta de una
+                                                # exist_ok=True Ignora el error por directorio existente en la ruta
+
     print(f"Modulo creado, la ruta completa es: {ruta}")
     return
 
 def renombrar_modulo():
     '''Renombra el directorio de un modulo'''
 
+    # Montamos la ruta
     raiz = Path('./cuadernoDAM')
     ruta = input("Introduce la ruta del modulo que desee renombrar: ")
     ruta = raiz / ruta
 
-    if ruta.exists():
 
+    if ruta.exists():
         nuevo_nombre = input("Introduce el nuevo nombre a asignar: ")
         # with_name() mantiene toda la ruta y solo cambia el nombre del ultimo directorio
         nueva_ruta = ruta.with_name(nuevo_nombre)
