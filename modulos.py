@@ -118,7 +118,10 @@ def eliminar_modulo():
     '''Elimina un módulo'''
     
     print("ADVERTENCIA: Esta funcionalidad borra el módulo con todo su contenido")
+    raiz = Path('./cuadernoDAM')
     ruta = input("Introduzca la ruta al módulo que desea borrar: ")
+    ruta = raiz / ruta
+
     try:
         os.rmdir(ruta)
         print("Modulo eliminado")
